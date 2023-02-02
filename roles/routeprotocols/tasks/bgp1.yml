@@ -1,0 +1,18 @@
+---
+# tasks file for roles
+tasks:
+  - name: Create BGP Config template
+    template:
+      src: "templates/{{ ansible_network_os }}_bgp1.j2"
+      dest: "configs/{{ inventory_hostname }}_{{ ansible_network_os }}.config"
+
+  - block:
+      - name: Load EOS BGP Config
+        ansible.builtin.eos_config:
+          src: "configs/{{ inventory_hostname }}_{{ ansible_network_os }}.config"
+        register: updates
+        when: ansible_network_os == 'arista.eos.eos'
+
+      - name: debug updates
+        debug:
+          msg: "{{ updates.updates }}"

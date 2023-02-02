@@ -1,0 +1,29 @@
+---
+# tasks for configuring and managing interface type
+- name: Configure routed protocols
+  arista.eos.eos_interfaces:
+    config:
+      - name: "{{ item.eos_if }}"
+        mode: layer3
+  when:
+    - item.routed is defined
+  loop: "{{ interfaces }}"
+
+- name: Configure interface state and descriptions
+  arista.eos.eos_interfaces:
+    config:
+      - name: "{{ item.eos_if }}"
+        description: "{{ item.desc }}"
+        enabled: "{{ item.enabled }}"
+  loop: "{{ interfaces }}"
+
+- name: Configure L3 IPv4 Interfaces
+  arista.eos.eos_l3_interfaces:
+    config:
+      - name: "{{ item.eos_if }}"
+        ipv4:
+        - address: "{{ item.ipv4_neighbors }}"
+  when:
+    - item.ipv4 is defined
+  loop: "{{ interfaces }}"
+  

@@ -1,0 +1,29 @@
+---
+- name: "GET STATE DATA FROM SR LINUX"
+  hosts: "srl"
+  gather_facts: false
+  connection: local
+
+  vars:
+    commands:
+      - info system name host-name
+      - info system information
+  tasks:
+    - name: "get hostname and contact"
+      ansible.builtin.uri:
+        url: http://{{inventory_hostname}}/jsonrpc
+        url_username: admin
+        url_password: NokiaSrl1!
+        method: POST
+        body:
+          jsonrpc: "2.0"
+          id: 1
+          method: cli
+          params:
+            commands: "{{commands}}"
+            output-format: text
+        body_format: json
+      register: cli_result
+
+    - ansible.builtin.debug:
+        msg: "Host {{cli_result.json.result[0]}} contact {{cli_result.json.result[1]}}"

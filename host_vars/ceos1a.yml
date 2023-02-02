@@ -1,0 +1,21 @@
+# ---
+# hostname: clab-lab-01-ceos1
+# ansible_network_os: "arista.eos.eos"
+# domain_name: ceos1.local
+# loopback: 10.10.10.0
+# as: 65001
+# topology:
+#   - interface: Ethernet1
+#     switchport: no
+#     ip: 192.168.1.1
+#     subnet: 31
+#     ebgp_peer_ip: 192.168.1.0
+#     ebgp_peer_loopback: 10.10.10.1
+#     ebgp_peer_as: 65100
+#   - interface: Ethernet2
+#     switchport: no
+#     ip: 192.168.1.4
+#     subnet: 31
+#     ebgp_peer_ip: 192.168.1.5
+#     ebgp_peer_loopback: 10.10.10.2
+#     ebgp_peer_as: 65002

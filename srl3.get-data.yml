@@ -1,0 +1,30 @@
+---
+- name: "GET STATE DATA FROM SR LINUX"
+  hosts: "srl"
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: "get hostname and contact"
+      ansible.builtin.uri:
+        url: http://{{inventory_hostname}}/jsonrpc
+        url_username: admin
+        url_password: NokiaSrl1!
+        method: POST
+        body:
+          jsonrpc: "2.0"
+          id: 1
+          method: set
+          params:
+            commands:
+              - action: replace
+                path: /interface[name=mgmt0]/description:{{ inventory_hostname }} management interface
+              - action: update
+                path: /system/information
+                value:
+                  location: Dallas
+                  contact: Levi
+              - action: update
+                path: /
+                value: "{{ lookup('ansible.builtin.template', '{{ playbook_dir }}/iface-cfg.json.j2') }}"
+        body_format: json

@@ -1,0 +1,29 @@
+---
+hostname: clab-lab-01-ceos2
+ansible_network_os: "arista.eos.eos"
+domain_name: ceos2.local
+router_id: 10.10.10.2
+rtr_role: ceos2_core
+bgp:
+  local_as: 65002
+  neighbors:
+  ipv4_neighbors:
+     - neighbor: 192.168.1.2
+       remote_as: 65100
+       ibgp: true
+       update_source: Loopback0
+     - neighbor: 192.168.1.4
+       remote_as: 65001
+       ibgp: true
+       update_source: Loopback0
+interfaces:
+  - eos_if: "Ethernet1"
+    desc: "Ethernet1 - Srl peering intf"
+    enabled: true
+    routed: true
+    ipv4: "192.168.1.3/24"
+  - eos_if: "Ethernet2"
+    desc: "Ethernet2 - ceos1 peering intf"
+    enabled: true
+    routed: true
+    ipv4: "192.168.1.5/24"

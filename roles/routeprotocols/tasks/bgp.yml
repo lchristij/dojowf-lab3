@@ -1,0 +1,16 @@
+---
+# tasks for configuring and managing routing protocols
+- name: Configure BGP - iBGP v4 peers
+  arista.eos.eos_bgp_global:
+    config:
+      bgp_as: "{{ bgp['local_as'] }}"
+      log_neighbor_changes: True
+      router_id: " {{ router_id }}"
+      neighbors:
+      - neighbor: "{{ item.neighbor }}"
+        remote_as: "{{ item.remote_as }}"
+  when:
+    - bgp is defined
+  loop: "{{ bgp.neighbors.ipv4_neighbors }}"
+  tags:
+  - bgp_v4

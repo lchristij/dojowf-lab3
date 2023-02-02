@@ -1,0 +1,13 @@
+---
+- name: "GET NOKIA SR LINUX DATA"
+  hosts: "srl"
+  gather_facts: false
+  connection: "network_cli"
+
+  tasks:
+    - name: "run show version NOS"
+      community.network.sros_command:
+        commands: show interface
+      register: results
+    - debug: msgs "{{ results }}"
+        

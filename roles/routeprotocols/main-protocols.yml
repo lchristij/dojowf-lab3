@@ -1,0 +1,5 @@
+---
+# Add Routing Tasks
+##
+# - name: Add BGP routing to EOS devices
+#   include: tasks/bgp.yml

@@ -1,0 +1,4 @@
+---
+ansible_network_os: "arista.eos.eos"
+commands:
+  show_interfaces: "show interfaces | json"

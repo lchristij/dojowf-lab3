@@ -1,0 +1,33 @@
+---
+- name: "GET DATA FROM DEVICE"
+  hosts: "ceos"
+  gather_facts: false
+  connection: "network_cli"
+  tasks:
+    - name: "VALIDATE DEVICES ARE REACHABLE"
+      ansible.builtin.ping:
+      register: "ping"
+
+    - name: "VIEW OUTPUT OF PING"
+      ansible.builtin.debug:
+        var: "ping"
+
+    - name: "SHOW VERSION"
+      ansible.utils.cli_parse:
+        command: "show version"
+        parser:
+          name: "ansible.netcommon.ntc_templates"
+      register: "version_result"
+
+    - name: "{{ inventory_hostname | upper }} OS VERSION"
+      ansible.builtin.debug:
+        msg: "{{ version_result['parsed'][0]['image'] }}"
+
+    - name: "RUN SHOW COMMAND"
+      cli_command:
+        command: "{{ commands['show_interfaces'] }}"
+      register: "show_interfaces"
+
+    - name: "VIEW OUTPUT OF SHOW COMMAND"
+      ansible.builtin.debug:
+        var: "show_interfaces.stdout_lines"
